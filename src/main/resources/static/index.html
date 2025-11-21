@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Center - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-wrench"></i>
+            <h2>Service Center</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" onclick="showSection('dashboard')" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="#" onclick="showSection('customers')"><i class="fas fa-users"></i> Customers</a></li>
+            <li><a href="#" onclick="showSection('vehicles')"><i class="fas fa-car"></i> Vehicles</a></li>
+            <li><a href="#" onclick="showSection('employees')"><i class="fas fa-user-tie"></i> Employees</a></li>
+            <li><a href="#" onclick="showSection('service-requests')"><i class="fas fa-clipboard-list"></i> Service Requests</a></li>
+            <li><a href="#" onclick="showSection('services')"><i class="fas fa-tools"></i> Services</a></li>
+            <li><a href="#" onclick="showSection('brands')"><i class="fas fa-tag"></i> Brands</a></li>
+            <li><a href="#" onclick="showSection('invoices')"><i class="fas fa-file-invoice"></i> Invoices</a></li>
+            <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="topbar-right">
+                <div class="user-info" id="userInfo">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="username">Loading...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="content-section active">
+            <div class="page-header">
+                <h1><i class="fas fa-home"></i> Dashboard</h1>
+                <p>Welcome to Service Center Management System</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalCustomers">0</h3>
+                        <p>Total Customers</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalVehicles">0</h3>
+                        <p>Total Vehicles</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalServiceRequests">0</h3>
+                        <p>Service Requests</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalServices">0</h3>
+                        <p>Active Services</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customers Section -->
+        <section id="customers" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-users"></i> Customers</h1>
+                <button class="btn btn-primary" onclick="openCustomerModal()">
+                    <i class="fas fa-plus"></i> Add Customer
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTableBody">
+                        <tr><td colspan="5" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Vehicles Section -->
+        <section id="vehicles" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-car"></i> Vehicles</h1>
+                <button class="btn btn-primary" onclick="openVehicleModal()">
+                    <i class="fas fa-plus"></i> Add Vehicle
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Number</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Type</th>
+                            <th>Customer</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vehiclesTableBody">
+                        <tr><td colspan="7" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Employees Section -->
+        <section id="employees" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-user-tie"></i> Employees</h1>
+                <button class="btn btn-primary" onclick="openEmployeeModal()">
+                    <i class="fas fa-plus"></i> Add Employee
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employeesTableBody">
+                        <tr><td colspan="5" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Service Requests Section -->
+        <section id="service-requests" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-clipboard-list"></i> Service Requests</h1>
+                <button class="btn btn-primary" onclick="openServiceRequestModal()">
+                    <i class="fas fa-plus"></i> Add Service Request
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Vehicle</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="serviceRequestsTableBody">
+                        <tr><td colspan="5" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-tools"></i> Services</h1>
+                <button class="btn btn-primary" onclick="openServiceModal()">
+                    <i class="fas fa-plus"></i> Add Service
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Job Name</th>
+                            <th>Description</th>
+                            <th>Cost</th>
+                            <th>Employee</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="servicesTableBody">
+                        <tr><td colspan="6" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Brands Section -->
+        <section id="brands" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-tag"></i> Brands</h1>
+                <button class="btn btn-primary" onclick="openBrandModal()">
+                    <i class="fas fa-plus"></i> Add Brand
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Country</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="brandsTableBody">
+                        <tr><td colspan="5" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Invoices Section -->
+        <section id="invoices" class="content-section">
+            <div class="page-header">
+                <h1><i class="fas fa-file-invoice"></i> Invoices</h1>
+                <button class="btn btn-primary" onclick="openInvoiceModal()">
+                    <i class="fas fa-plus"></i> Generate Invoice
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Customer</th>
+                            <th>Vehicle</th>
+                            <th>Total Amount</th>
+                            <th>Payment Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoicesTableBody">
+                        <tr><td colspan="7" class="loading">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal active">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+                <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="text-center">
+                    Don't have an account? <a href="#" onclick="showRegister()">Register</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Register</h2>
+                <button class="modal-close" onclick="closeRegisterModal()">&times;</button>
+            </div>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Username</label>
+                    <input type="text" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-user-shield"></i> Role</label>
+                    <select id="registerRole" required>
+                        <option value="USER">User</option>
+                        <option value="ADMIN">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <p class="text-center">
+                    Already have an account? <a href="#" onclick="showLogin()">Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Customer Modal -->
+    <div id="customerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="customerModalTitle"><i class="fas fa-user-plus"></i> Add Customer</h2>
+                <button class="modal-close" onclick="closeCustomerModal()">&times;</button>
+            </div>
+            <form id="customerForm" onsubmit="handleCustomerSubmit(event)">
+                <input type="hidden" id="customerId">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="customerFullName" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="customerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone</label>
+                    <input type="tel" id="customerPhone" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCustomerModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Vehicle Modal -->
+    <div id="vehicleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="vehicleModalTitle"><i class="fas fa-car"></i> Add Vehicle</h2>
+                <button class="modal-close" onclick="closeVehicleModal()">&times;</button>
+            </div>
+            <form id="vehicleForm" onsubmit="handleVehicleSubmit(event)">
+                <input type="hidden" id="vehicleId">
+                <div class="form-group">
+                    <label><i class="fas fa-hashtag"></i> Vehicle Number</label>
+                    <input type="text" id="vehicleNumber" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Brand</label>
+                    <select id="vehicleBrandId">
+                        <option value="">Select Brand</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-car-side"></i> Model</label>
+                    <input type="text" id="vehicleModel">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-car"></i> Type</label>
+                    <input type="text" id="vehicleType">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Customer</label>
+                    <select id="vehicleCustomerId" required>
+                        <option value="">Select Customer</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeVehicleModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Employee Modal -->
+    <div id="employeeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="employeeModalTitle"><i class="fas fa-user-plus"></i> Add Employee</h2>
+                <button class="modal-close" onclick="closeEmployeeModal()">&times;</button>
+            </div>
+            <form id="employeeForm" onsubmit="handleEmployeeSubmit(event)">
+                <input type="hidden" id="employeeId">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="employeeFullName" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="employeeEmail" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Phone</label>
+                    <input type="tel" id="employeePhone" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEmployeeModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Service Request Modal -->
+    <div id="serviceRequestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="serviceRequestModalTitle"><i class="fas fa-clipboard-list"></i> Add Service Request</h2>
+                <button class="modal-close" onclick="closeServiceRequestModal()">&times;</button>
+            </div>
+            <form id="serviceRequestForm" onsubmit="handleServiceRequestSubmit(event)">
+                <input type="hidden" id="serviceRequestId">
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="serviceRequestDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-info-circle"></i> Status</label>
+                    <select id="serviceRequestStatus" required>
+                        <option value="PENDING">Pending</option>
+                        <option value="IN_PROGRESS">In Progress</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-car"></i> Vehicle</label>
+                    <select id="serviceRequestVehicleId" required>
+                        <option value="">Select Vehicle</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeServiceRequestModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="serviceModalTitle"><i class="fas fa-tools"></i> Add Service</h2>
+                <button class="modal-close" onclick="closeServiceModal()">&times;</button>
+            </div>
+            <form id="serviceForm" onsubmit="handleServiceSubmit(event)">
+                <input type="hidden" id="serviceId">
+                <div class="form-group">
+                    <label><i class="fas fa-briefcase"></i> Job Name</label>
+                    <input type="text" id="serviceJobName" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="serviceDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-dollar-sign"></i> Cost</label>
+                    <input type="number" id="serviceCost" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-clipboard-list"></i> Service Request</label>
+                    <select id="serviceServiceRequestId" required>
+                        <option value="">Select Service Request</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-user-tie"></i> Employee</label>
+                    <select id="serviceUserId" required>
+                        <option value="">Select Employee</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeServiceModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Brand Modal -->
+    <div id="brandModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="brandModalTitle"><i class="fas fa-tag"></i> Add Brand</h2>
+                <button class="modal-close" onclick="closeBrandModal()">&times;</button>
+            </div>
+            <form id="brandForm" onsubmit="handleBrandSubmit(event)">
+                <input type="hidden" id="brandId">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Brand Name</label>
+                    <input type="text" id="brandName" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-align-left"></i> Description</label>
+                    <textarea id="brandDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-globe"></i> Country</label>
+                    <input type="text" id="brandCountry">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeBrandModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Invoice Modal -->
+    <div id="invoiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="invoiceModalTitle"><i class="fas fa-file-invoice"></i> Generate Invoice</h2>
+                <button class="modal-close" onclick="closeInvoiceModal()">&times;</button>
+            </div>
+            <form id="invoiceForm" onsubmit="handleInvoiceSubmit(event)">
+                <input type="hidden" id="invoiceId">
+                <div class="form-group">
+                    <label><i class="fas fa-clipboard-list"></i> Service Request</label>
+                    <select id="invoiceServiceRequestId" required>
+                        <option value="">Select Service Request</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-percent"></i> Tax (%)</label>
+                    <input type="number" id="invoiceTax" step="0.01" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Discount ($)</label>
+                    <input type="number" id="invoiceDiscount" step="0.01" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-calendar"></i> Due Days</label>
+                    <input type="number" id="invoiceDueDays" min="1" value="30">
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-money-bill-wave"></i> Payment Status</label>
+                    <select id="invoicePaymentStatus" required>
+                        <option value="UNPAID">Unpaid</option>
+                        <option value="PAID">Paid</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-sticky-note"></i> Notes</label>
+                    <textarea id="invoiceNotes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeInvoiceModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Generate Invoice</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+

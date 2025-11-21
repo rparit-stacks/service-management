@@ -1,0 +1,98 @@
+/* InvoiceForm uses common.css for most styles */
+
+.modal-content.invoice-form {
+  max-width: 800px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.service-request-info {
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid #d32f2f;
+}
+
+.service-request-info h3 {
+  margin: 0 0 12px 0;
+  color: #212121;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.service-request-info p {
+  margin: 8px 0;
+  color: #757575;
+  font-size: 14px;
+}
+
+.services-list {
+  margin-bottom: 20px;
+}
+
+.services-list h3 {
+  margin: 0 0 12px 0;
+  color: #212121;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.services-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.services-table th,
+.services-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.services-table thead {
+  background: #fafafa;
+}
+
+.services-table th {
+  font-weight: 500;
+  color: #212121;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.invoice-summary {
+  background: #fafafa;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border-left: 4px solid #d32f2f;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #212121;
+  font-size: 14px;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-row.total {
+  font-weight: 500;
+  font-size: 18px;
+  color: #d32f2f;
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 2px solid #d32f2f;
+}

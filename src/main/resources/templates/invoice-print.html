@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - <span th:text="${invoice.invoiceNumber}"></span></title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #333;
+        }
+        
+        .company-info h1 {
+            color: #1976d2;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .company-info p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .invoice-info {
+            text-align: right;
+        }
+        
+        .invoice-info h2 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .invoice-info p {
+            color: #666;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        
+        .invoice-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .detail-section h3 {
+            color: #1976d2;
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .detail-section p {
+            color: #333;
+            font-size: 14px;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+        
+        .services-table thead {
+            background: #1976d2;
+            color: white;
+        }
+        
+        .services-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .services-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .services-table tbody tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        .summary-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #333;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-size: 16px;
+        }
+        
+        .summary-row.total {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1976d2;
+            border-top: 2px solid #1976d2;
+            padding-top: 15px;
+            margin-top: 10px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pending {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .status-paid {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .status-partial {
+            background: #2196f3;
+            color: white;
+        }
+        
+        .status-cancelled {
+            background: #f44336;
+            color: white;
+        }
+        
+        .notes-section {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-left: 4px solid #1976d2;
+        }
+        
+        .notes-section h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .notes-section p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .print-button {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .print-button button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .print-button button:hover {
+            background: #1565c0;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .invoice-container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div class="company-info">
+                <h1>Service Center</h1>
+                <p>123 Service Street<br>
+                City, State 12345<br>
+                Phone: (123) 456-7890<br>
+                Email: info@servicecenter.com</p>
+            </div>
+            <div class="invoice-info">
+                <h2>INVOICE</h2>
+                <p><strong>Invoice #:</strong> <span th:text="${invoice.invoiceNumber}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${#temporals.format(invoice.createdAt, 'MMM dd, yyyy')}"></span></p>
+                <p><strong>Due Date:</strong> <span th:text="${invoice.dueDate != null ? #temporals.format(invoice.dueDate, 'MMM dd, yyyy') : 'N/A'}"></span></p>
+                <p>
+                    <span class="status-badge" 
+                          th:classappend="${invoice.paymentStatus == 'PAID'} ? 'status-paid' : 'status-pending'"
+                          th:text="${invoice.paymentStatus}"></span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="invoice-details">
+            <div class="detail-section">
+                <h3>Bill To:</h3>
+                <p><strong th:text="${invoice.customerName}"></strong></p>
+                <p th:text="${invoice.customerEmail}"></p>
+                <p th:text="${invoice.customerPhone}"></p>
+            </div>
+            <div class="detail-section">
+                <h3>Vehicle Information:</h3>
+                <p><strong>Vehicle #:</strong> <span th:text="${invoice.vehicleNumber}"></span></p>
+                <p><strong>Model:</strong> <span th:text="${invoice.vehicleModel}"></span></p>
+                <p><strong>Type:</strong> <span th:text="${invoice.vehicleType}"></span></p>
+            </div>
+        </div>
+        
+        <table class="services-table">
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Description</th>
+                    <th class="text-right">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="service : ${invoice.services}">
+                    <td th:text="${service.jobName}"></td>
+                    <td th:text="${service.description ?: 'N/A'}"></td>
+                    <td class="text-right" th:text="${'₹' + #numbers.formatDecimal(service.cost, 1, 2)}"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="summary-section">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span th:text="${'₹' + #numbers.formatDecimal(invoice.subtotal, 1, 2)}"></span>
+            </div>
+            <div class="summary-row" th:if="${invoice.tax > 0}">
+                <span>Tax:</span>
+                <span th:text="${'₹' + #numbers.formatDecimal(invoice.tax, 1, 2)}"></span>
+            </div>
+            <div class="summary-row" th:if="${invoice.discount > 0}">
+                <span>Discount:</span>
+                <span th:text="${'-₹' + #numbers.formatDecimal(invoice.discount, 1, 2)}"></span>
+            </div>
+            <div class="summary-row total">
+                <span>Total Amount:</span>
+                <span th:text="${'₹' + #numbers.formatDecimal(invoice.totalAmount, 1, 2)}"></span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Payment Status:</strong></span>
+                <span th:text="${invoice.paymentStatus}"></span>
+            </div>
+        </div>
+        
+        <div class="notes-section" th:if="${invoice.notes}">
+            <h3>Notes:</h3>
+            <p th:text="${invoice.notes}"></p>
+        </div>
+        
+        <div class="print-button">
+            <button onclick="window.print()">Print Invoice</button>
+        </div>
+    </div>
+</body>
+</html>
+

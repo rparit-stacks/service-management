@@ -1,0 +1,5 @@
+/* ServiceRequestForm uses common.css for most styles */
+
+.modal-content {
+  max-width: 500px;
+}

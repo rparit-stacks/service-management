@@ -1,0 +1,133 @@
+.navbar {
+  background: #ffffff;
+  color: #212121;
+  padding: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: 500;
+  color: #212121;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: color 0.2s;
+}
+
+.navbar-brand:hover {
+  color: #d32f2f;
+}
+
+.navbar-brand i {
+  color: #d32f2f;
+  font-size: 24px;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  color: #212121;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: #d32f2f;
+  transition: all 0.3s;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover {
+  background-color: #f5f5f5;
+  color: #d32f2f;
+}
+
+.nav-link:hover::after {
+  width: 80%;
+}
+
+.nav-link i {
+  font-size: 16px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: 24px;
+  padding-left: 24px;
+  border-left: 1px solid #e0e0e0;
+}
+
+.username {
+  font-weight: 500;
+  color: #212121;
+  font-size: 14px;
+}
+
+.role {
+  font-size: 12px;
+  color: #757575;
+  background: #f5f5f5;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+}
+
+.btn-logout {
+  background: transparent;
+  color: #212121;
+  border: 1px solid #e0e0e0;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.btn-logout:hover {
+  background: #f5f5f5;
+  border-color: #d32f2f;
+  color: #d32f2f;
+}
+
+.btn-logout i {
+  font-size: 14px;
+}

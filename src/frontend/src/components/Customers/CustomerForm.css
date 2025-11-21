@@ -1,0 +1,6 @@
+/* CustomerForm uses common.css for most styles */
+/* Additional specific styles if needed */
+
+.modal-content {
+  max-width: 500px;
+}
