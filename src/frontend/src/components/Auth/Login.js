@@ -43,6 +43,14 @@ const Login = () => {
 
   return (
     <div className="auth-container">
+      <div className="auth-image-wrapper">
+        <img 
+          src="/images/image.png" 
+          alt="Service Center" 
+          className="auth-background-image"
+        />
+        <div className="auth-image-overlay"></div>
+      </div>
       <div className="auth-card">
         <h2>
           <i className="fas fa-sign-in-alt"></i>
